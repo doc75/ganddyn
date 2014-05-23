@@ -24,9 +24,9 @@ Or install it yourself as:
 
     $ gannddyn hostname.domain.com GANDIAPIKEY /path/to/file/storing/last/ip/updated
 
-    **Warning**:
-      - This is an early version not fully tested, use it at your own risk.
-      - When used on multiple machines for the same domain, it might miss some update in case of concurrent update
+**Warning**:
+  - This is an early version not fully tested, use it at your own risk.
+  - When used on multiple machines for the same domain, it might miss some update in case of concurrent update
 
 ## Contributing
 
