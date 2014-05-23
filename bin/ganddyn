@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << './lib'
+require 'ganddyn'
+
+raise ArgumentError, 'Usage: ganddyn host.domain.com gandi_api_key yaml_file' if ARGV.size != 3
+
+begin
+  cli = Ganddyn::Client.new({:hostname => ARGV[0], :api_key => ARGV[1], :config_file => ARGV[2]})
+  cli.update
+  retval = 0
+rescue Exception => e
+  puts e
+  puts e.backtrace
+  retval = 1
+end
+
+exit retval
