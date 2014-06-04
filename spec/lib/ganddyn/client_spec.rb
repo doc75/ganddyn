@@ -48,7 +48,7 @@ describe Ganddyn::Client do
     before :each do
     end
     it 'takes 1 parameters' do
-      Ganddyn::Client.new( @param ).should be_a Ganddyn::Client
+      expect(Ganddyn::Client.new(@param)).to be_a Ganddyn::Client
     end
 
     it 'raises an error if parameter opts is not a Hash' do
@@ -92,7 +92,7 @@ describe Ganddyn::Client do
 
       it 'asks gandi for ipv4' do
         expect(@gand).to receive(:get_record).with('A').and_return(@ipv4)
-        expect(@gand.update).to be_true
+        expect(@gand.update).to be_truthy
       end
 
     end
@@ -100,7 +100,7 @@ describe Ganddyn::Client do
     context 'when yaml config file exist' do
       it 'does not ask Gandi' do
         allow(@gand).to receive(:get_record)
-        expect(@gand.update).to be_true
+        expect(@gand.update).to be_truthy
         expect(@gand).to_not have_received(:get_record)
       end
     end
@@ -122,7 +122,7 @@ describe Ganddyn::Client do
       end
 
       it 'returns true' do
-        expect(@gand.update).to be_true
+        expect(@gand.update).to be_truthy
       end
 
       it 'does not modify the yaml config file' do
@@ -133,7 +133,7 @@ describe Ganddyn::Client do
 
     context 'when ip to update' do
       it 'updates the ip' do
-        expect(@gand.update).to be_true
+        expect(@gand.update).to be_truthy
       end
 
       it 'updates the yaml config file content' do
@@ -193,26 +193,26 @@ describe_internally Ganddyn::Client do
 
   describe '#get_zone_id' do
     it 'returns the current zone id' do
-      @api.should_receive(:info).with(@domain).and_return(Hashie::Mash.new({:zone_id => 666}))
-      @gand.get_zone_id.should == 666
+      expect(@api).to receive(:info).with(@domain).and_return(Hashie::Mash.new({:zone_id => 666}))
+      expect(@gand.get_zone_id).to eq(666)
     end
 
     it 'calls gandi api only once' do
-      @api.should_receive(:info).once.with(@domain).and_return(Hashie::Mash.new({:zone_id => 666}))
-      @gand.get_zone_id.should == 666
-      @gand.get_zone_id.should == 666
+      expect(@api).to receive(:info).once.with(@domain).and_return(Hashie::Mash.new({:zone_id => 666}))
+      expect(@gand.get_zone_id).to eq(666)
+      expect(@gand.get_zone_id).to eq(666)
     end
   end
 
   describe '#create_new_zone_version' do
-    pending 'not really necessary'
+    pending 'not really necessary to test'
   end
 
   describe '#get_zone_version' do
     it 'returns 2 values' do
       version, versions = @gand.get_zone_version
-      version.should == @cur_ver
-      versions.should == @vers
+      expect(version).to eq(@cur_ver)
+      expect(versions).to eq(@vers)
     end
   end
 
@@ -224,7 +224,7 @@ describe_internally Ganddyn::Client do
     end
 
     it 'takes 1 parameter as argument' do
-      @api.should_receive(:list).with(anything(), 0, @filter).and_return([@res])
+      expect(@api).to receive(:list).with(anything(), 0, @filter).and_return([@res])
       @gand.get_record('A')
     end
 
@@ -234,7 +234,7 @@ describe_internally Ganddyn::Client do
       end
 
       it 'returns the IPv4 address' do
-        @gand.get_record('A').should == @ipv4
+        expect(@gand.get_record('A')).to eq(@ipv4)
       end
 
       # it 'output record found with value' do
@@ -291,18 +291,18 @@ describe_internally Ganddyn::Client do
     end
 
     it 'takes 3 arguments' do
-      expect(@gand.update_record( @cur_ver, @ipv4, 'A')).to be_true
+      expect(@gand.update_record( @cur_ver, @ipv4, 'A')).to be_truthy
     end
 
     context 'when input ip is empty' do
       it 'returns false' do
-        expect(@gand.update_record( @cur_ver, '', 'A')).to be_false
+        expect(@gand.update_record( @cur_ver, '', 'A')).to be_falsey
       end
     end 
 
     context 'when record does not exist yet' do
       it 'adds a new record' do
-        expect(@gand.update_record( @cur_ver, @ipv4, 'A')).to be_true
+        expect(@gand.update_record( @cur_ver, @ipv4, 'A')).to be_truthy
         expect(@api).to have_received(:add).with(anything, @cur_ver, @rec )
         expect(@api).to_not have_received(:update)
       end
@@ -323,7 +323,7 @@ describe_internally Ganddyn::Client do
         end
 
         it 'returns true' do
-          expect(@gand.update_record( @cur_ver, "#{@ipv4}1", 'A')).to be_true
+          expect(@gand.update_record( @cur_ver, "#{@ipv4}1", 'A')).to be_truthy
         end
       end
 
@@ -335,7 +335,7 @@ describe_internally Ganddyn::Client do
         end
 
         it 'returns false' do
-          expect(@gand.update_record( @cur_ver, @ipv4, 'A')).to be_false
+          expect(@gand.update_record( @cur_ver, @ipv4, 'A')).to be_falsey
         end
       end
     end
@@ -394,7 +394,7 @@ describe_internally Ganddyn::Client do
   describe '#activate_updated_version' do
     context 'when activation succeeded' do
       it 'returns true' do
-        expect(@gand.activate_updated_version(2)).to be_true
+        expect(@gand.activate_updated_version(2)).to be_truthy
       end
 
       # it 'output activation of zone version successful' do
@@ -408,7 +408,7 @@ describe_internally Ganddyn::Client do
         expect(@api).to receive(:set).with(anything(), 9).and_return(false)
       end
       it 'returns false' do
-        expect(@gand.activate_updated_version(9)).to be_false
+        expect(@gand.activate_updated_version(9)).to be_falsey
       end
 
       # it 'output activation of zone version failed' do
@@ -420,13 +420,13 @@ describe_internally Ganddyn::Client do
   end
 
   describe '#update_ipv4' do
-    # pending 'not necessary'
+    pending 'not really necessary to test'
   end
 
 
   describe '#update_ips' do
     it 'take 1 input as parameter' do
-      expect(@gand.update_ips('')).to be_true
+      expect(@gand.update_ips('')).to be_truthy
     end
 
     context 'when input is not a String' do
@@ -441,7 +441,7 @@ describe_internally Ganddyn::Client do
         allow(@gand).to receive(:create_new_zone_version)
         allow(@gand).to receive(:clone_zone_version)
 
-        expect(@gand.update_ips('')).to be_true
+        expect(@gand.update_ips('')).to be_truthy
 
         expect(@gand).to_not have_received(:get_zone_version)
         expect(@gand).to_not have_received(:create_new_zone_version)
@@ -463,7 +463,7 @@ describe_internally Ganddyn::Client do
 
       context 'when activation of new zone version is OK' do
         it 'returns true' do
-          expect(@gand.update_ips('1.2.3.4')).to be_true
+          expect(@gand.update_ips('1.2.3.4')).to be_truthy
         end
 
         it 'output update done' do
@@ -479,7 +479,7 @@ describe_internally Ganddyn::Client do
         end
 
         it 'returns false' do
-          expect(@gand.update_ips('1.2.3.4')).to be_false
+          expect(@gand.update_ips('1.2.3.4')).to be_falsey
         end
 
         it 'output update FAILED' do
@@ -544,15 +544,11 @@ describe_internally Ganddyn::Client do
     end
 
     context 'on windows platform' do
-      it 'redirect output to > NUL' do
-        pending
-      end
+      it 'redirect output to > NUL'
     end
 
     context 'on Linux platform' do
-      it 'redirect output to > /dev/null 2>&1' do
-        pending
-      end
+      it 'redirect output to > /dev/null 2>&1'
     end
   end
 
