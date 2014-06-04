@@ -21,10 +21,10 @@ this version.}
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler', '~> 1.3'
-  spec.add_development_dependency 'rake', '~>10.3.1'
-  spec.add_development_dependency 'rspec', '~>2.14.1'
-  spec.add_development_dependency 'webmock', '~>1.17.4'
+  spec.add_development_dependency 'bundler', '~> 1.3.5'
+  spec.add_development_dependency 'rake', '~>10.3.2'
+  spec.add_development_dependency 'rspec', '~>3.0.0'
+  spec.add_development_dependency 'webmock', '~>1.18.0'
 
   spec.add_dependency 'gandi', '~>2.0.10'
   spec.add_dependency 'highline', '~>1.6.21'
