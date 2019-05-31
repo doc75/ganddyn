@@ -22,11 +22,11 @@ this version.}
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'bundler', '~> 1.3'
-  spec.add_development_dependency 'rake', '~> 10.3'
+  spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'webmock', '~> 1.18'
+  spec.add_development_dependency 'webmock', '~> 3.0'
 
-  spec.add_dependency 'gandi', '~> 2.0'
-  spec.add_dependency 'highline', '~> 1.6'
-  spec.add_dependency 'certified', '~> 0.1'
+  spec.add_dependency 'gandi', '~> 3.0'
+  spec.add_dependency 'highline', '~> 2.0'
+  spec.add_dependency 'certified', '~> 1.0'
 end
