@@ -1,3 +1,8 @@
+## 1.0.0 (2019-05-31)
+
+- Support only ruby version >= 2.0
+- update travis-ci ruby verion tested
+
 ## 0.1.0 (2019-05-31)
 
 Update gem dependencies to newer versions
